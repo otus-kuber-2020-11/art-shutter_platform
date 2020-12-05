@@ -1,0 +1,25 @@
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: whatever-caddy
+  labels:
+    name: coming-soon
+spec:
+  containers:
+    - name: caddy-server
+      image: docker.io/346245737637245/whatever_caddy:2.1.1
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  initContainers:
+    - name: caddy-init
+      image: docker.io/346245737637245/caddy-init:latest
+      command: ["sh", "-c", "wget -O- https://tinyurl.com/otus-k8s-intro | sh"]
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  volumes:
+    - name: app
+      emptyDir: {}

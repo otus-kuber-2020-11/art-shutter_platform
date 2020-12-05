@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: frontend
+  name: frontend
+spec:
+  containers:
+  - image: docker.io/346245737637245/shopper-frontend
+    name: frontend
+    resources: {}
+    env:
+    - name: PRODUCT_CATALOG_SERVICE_ADDR
+      value: "vasya:9091"
+    - name: CURRENCY_SERVICE_ADDR
+      value: "vasya:9093"
+    - name: CART_SERVICE_ADDR
+      value: "vasya:9094"
+    - name: RECOMMENDATION_SERVICE_ADDR
+      value: "vasya:9095"
+    - name: SHIPPING_SERVICE_ADDR
+      value: "vasya:50051"
+    - name: CHECKOUT_SERVICE_ADDR
+      value: "vasya:5050"
+    - name: AD_SERVICE_ADDR
+      value: "vasya:9555"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
