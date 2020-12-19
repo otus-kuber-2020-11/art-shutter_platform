@@ -6,3 +6,10 @@ art-shutter Platform repository
 
 - ReplicaSet vs. Deployment
 - DaemonSet (e.g. for monitoring)
+
+## k8s security
+
+- Role, RoleBinding
+- ClusterRole, ClusterRoleBinding
+- predefined roles
+- service accounts ans their permission
