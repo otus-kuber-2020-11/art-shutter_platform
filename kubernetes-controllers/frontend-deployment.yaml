@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: docker.io/346245737637245/shopper-frontend:2
+        name: frontend
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/_healthz"
+            port: 8080
+            httpHeaders:
+            - name: "Cookie"
+              value: "shop_session-id=x-readiness-probe"
+        livenessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/_healthz"
+            port: 8080
+            httpHeaders:
+            - name: "Cookie"
+              value: "shop_session-id=x-liveness-probe"
+        env:
+        - name: PRODUCT_CATALOG_SERVICE_ADDR
+          value: "vasya:9091"
+        - name: CURRENCY_SERVICE_ADDR
+          value: "vasya:9093"
+        - name: CART_SERVICE_ADDR
+          value: "vasya:9094"
+        - name: RECOMMENDATION_SERVICE_ADDR
+          value: "vasya:9095"
+        - name: SHIPPING_SERVICE_ADDR
+          value: "vasya:50051"
+        - name: CHECKOUT_SERVICE_ADDR
+          value: "vasya:5050"
+        - name: AD_SERVICE_ADDR
+          value: "vasya:9555"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
