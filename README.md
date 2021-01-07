@@ -13,3 +13,9 @@ art-shutter Platform repository
 - ClusterRole, ClusterRoleBinding
 - predefined roles
 - service accounts ans their permission
+
+## k8s statefulsets
+
+- SatefulSet
+- Secrets
+- Volumes
