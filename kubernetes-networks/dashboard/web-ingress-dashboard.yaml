@@ -14,3 +14,7 @@ spec:
             backend:
               serviceName: web-svc
               servicePort: 8000
+          - path: /dashboard
+            backend:
+              serviceName: kubernetes-dashboard
+              servicePort: 443
