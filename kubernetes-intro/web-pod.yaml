@@ -10,6 +10,13 @@ spec:
   containers:
     - name: caddy-server
       image: docker.io/346245737637245/whatever_caddy:2.1.1
+      readinessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+      livenessProbe:
+        tcpSocket:
+          port: 8000
       volumeMounts:
         - name: app
           mountPath: /app
