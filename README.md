@@ -19,3 +19,9 @@ art-shutter Platform repository
 - SatefulSet
 - Secrets
 - Volumes
+
+## k8s templating
+
+- Install/deploy Helm charts
+- Build Helm charts
+- Template with kubecfg, kustomize, helm
