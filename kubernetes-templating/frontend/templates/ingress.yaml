@@ -1,0 +1,50 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: frontend
+  namespace: hipster-shop
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    cert-manager.io/issuer: "just-issuer"
+spec:
+  tls:
+  - hosts:
+    - shop.kamenev.pw
+    secretName: hipstershop-tls
+  rules:
+  - host: shop.kamenev.pw
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: frontend
+          servicePort: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: just-issuer
+  namespace: hipster-shop
+spec:
+  acme:
+    email: artem@kamenev.pw
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: hipstershop-private-tls-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hipster2-shop-cert
+  namespace: hipster-shop
+spec:
+  dnsNames:
+    - shop.kamenev.pw
+  secretName: hipstershop-tls
+  issuerRef:
+    name: just-issuer

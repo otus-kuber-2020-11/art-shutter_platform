@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chartmuseum
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: cluster-issuer
+spec:
+  acme:
+    email: artem@kamenev.pw
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: private-cluster-tls-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: chartmuseum-cert
+  namespace: chartmuseum
+spec:
+  dnsNames:
+    - chartmuseum.kamenev.pw
+  secretName: chartmuseum.kamenevpw-tls
+  issuerRef:
+    name: cluster-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-cert
+  namespace: harbor
+spec:
+  dnsNames:
+    - harbor.kamenev.pw
+  secretName: harbor.kamenevpw-tls
+  issuerRef:
+    name: cluster-issuer
