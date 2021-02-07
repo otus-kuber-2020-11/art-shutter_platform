@@ -60,7 +60,6 @@ kind: Service
 metadata:
   name: nginx
 spec:
-  type: LoadBalancer
   ports:
   - name: web
     port: 80
@@ -69,3 +68,17 @@ spec:
     port: 9113
   selector:
     app: nginx
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx
+  labels:
+    team: frontend
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  endpoints:
+  - port: metrics
